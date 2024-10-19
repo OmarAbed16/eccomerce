@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/face.css" /> 
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/media.css" />
+    <link rel="shortcut icon" href="./Media/logo.jpeg">
+    <title>Signin & Sign up</title>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="form-container sign-up">
+        <form class="form-up"  action="#">
+          <h2>sign up</h2>
+          <div class="form-group">
+            <input id="signup-us" type="text" required />
+            <i class="fas fa-user"></i>
+            <label for="">username</label>
+          </div>
+          <div class="form-group">
+            <input id="signup-em" type="email" required />
+            <i class="fas fa-at"></i>
+            <label for="">email</label>
+          </div>
+          <div class="form-group">
+            <input class="secure-text" id="signup-pw" type="password" required />
+            <i class="fas fa-lock"></i>
+            <label for="">password</label>
+          </div>
+          <div class="form-group">
+            <input class="secure-text" id="signup-pwm" type="password" required />
+            <i class="fas fa-lock"></i>
+            <label for="">confirm password</label>
+          </div>
+          <button id="signup" type="submit" class="btn">sign up</button>
+          <div class="link">
+            <p class="error up-error"></p>
+            <label>or</label>
+
+            
+<!--google sign up start-->
+<div class="google-logup"
+id="g_id_onload"
+data-client_id="64384021536-var2c7oqrqf4lk6m90nq54v8d8379aeh.apps.googleusercontent.com"
+data-context="signin"
+data-ux_mode="popup"
+data-param="up"
+data-callback="auth_info"
+data-auto_prompt="false"
+></div>
+
+<div
+class="g_id_signin"
+data-type="standard"
+data-shape="rectangular"
+data-theme="outline"
+data-text="continue_with"
+data-size="large"
+data-logo_alignment="left"
+></div>
+<!--google sign up End-->
+
+<!---->
+            <p>
+              You already have an account?<a href="#" class="signin-link">
+                sign in</a
+              >
+            </p>
+          </div>
+        </form>
+      </div>
+      <div class="form-container sign-in">
+        <form class="form-lg" action="#">
+          <!-- 3d face start-->
+          <div class="face-3d">
+            <img src="Media/logo.jpeg" width="100%" alt="" srcset="">
+          </div>
+          <!-- 3d face end-->
+          <h2>login</h2>
+          <div class="form-group">
+            <input id="login_em" type="text" required />
+            <i class="fas fa-user"></i>
+            <label id="login_em_label" for="">Email</label>
+          </div>
+          <div class="form-group">
+            <input class="secure-text" id="login_pw" type="password" required />
+            <i class="fas fa-lock"></i>
+            <label id="login_pw_label" for="">password</label>
+          </div>
+
+      
+            <label id="showPasswordToggle" for="showPasswordCheck"
+            >Show
+            <input id="showPasswordCheck" type="checkbox" />
+            <div class="indicator"></div>
+          </label>
+       
+          <!-- <div class="forgot-pass">
+            <a href="#">forgot password?</a>
+          </div> -->
+          <button type="submit" class="btn">login</button>
+          <div class="link">
+            <p class="error lg-error"></p>
+            <label>or</label>
+
+<!--google login start-->
+            <div class="google-login"
+            id="g_id_onload1"
+            data-client_id="64384021536-c0t5sukaieq83hfmka9tdngtsnqufuth.apps.googleusercontent.com"
+            data-context="signin"
+            data-ux_mode="popup"
+            data-param="in"
+            data-callback="auth_info"
+            data-auto_prompt="false"
+          ></div>
+    
+          <div
+            class="g_id_signin"
+            data-type="standard"
+            data-shape="rectangular"
+            data-theme="outline"
+            data-text="continue_with"
+            data-size="large"
+            data-logo_alignment="left"
+          ></div>
+          <!--google login End-->
+
+          <p>
+            Don't have an account?<a href="#" class="signup-link"> sign up</a>
+          </p>
+
+          
+        </div>
+
+        
+
+
+          </div>
+        </form>
+      </div>
+    </div>
+    <script
+      src="https://kit.fontawesome.com/9e5ba2e3f5.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+    <script src="./js/face.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+    
+  </body>
+</html>
