@@ -11,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty(file_get_contents("php://inp
     $password = $data['password'] ?? '';
     $passwordMatch = $data['passwordMatch'] ?? '';
     $role=$data['role'] ?? '';
+    $isDeleted=$data['isDeleted'] ?? '';
     // Validate username
     if (strlen($username) < 3 || strlen($username) > 20) {
         $response = "signupErrorMessage.textContent = 'Username must be between 3 and 20 characters long';";
@@ -101,14 +102,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty(file_get_contents("php://inp
          // Insert new user into the database
          $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password
 
-         $insertStmt = $conn->prepare("INSERT INTO users (user_name, user_email, user_password,role) VALUES (:username, :email, :password,:role)");
+         $insertStmt = $conn->prepare("INSERT INTO users (user_name, user_email, user_password,role,	isDeleted) VALUES (:username, :email, :password,:role,:isDeleted)");
          $insertStmt->bindParam(':username', $username);
          $insertStmt->bindParam(':email', $email);
          $insertStmt->bindParam(':password', $hashedPassword);
          $insertStmt->bindParam(':role', $role);
+         $isDeleted = (int) $isDeleted; 
+         $insertStmt->bindParam(':isDeleted', $isDeleted, PDO::PARAM_INT);
  
          if ($insertStmt->execute()) {
-             $response = "signupErrorMessage.textContent = 'User registered successfully';signupErrorMessage.style.color='green'";
+             $response = "signupErrorMessage.textContent = 'User registered successfully';signupErrorMessage.style.color='green';
+             
+              const templateParams = {
+        name:  '$username',
+        email: '$email',
+        message: '$email',
+    };
+
+    emailjs.send('service_d7lit7t', 'template_wzwaxxo', templateParams).then(
+        function (response) {
+            console.log('Email sent successfully!', response.status, response.text);
+        },
+        function (error) {
+            console.log('Failed to send email...', error);
+        }
+    );
+             
+             ";
              echo json_encode($response);
          } else {
              $response = "signupErrorMessage.textContent = 'Error registering user';";

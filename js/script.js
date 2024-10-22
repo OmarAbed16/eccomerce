@@ -105,7 +105,7 @@ function logup(event, us, em, pass, passMatch) {
     passwordMatch: passwordMatch,
     signupDate: new Date().toISOString(),
     role: "customer",
-    isDeleted: "0",
+    isDeleted: "1",
   };
 
   //check database
@@ -134,24 +134,58 @@ function login(event, em, pw) {
   let email = em;
   let password = pw;
   let loginErrorMessage = document.querySelectorAll(".lg-error")[0];
-  let users = JSON.parse(localStorage.getItem("users")) || [];
-  let user = users.find(
-    (user) => user.email == email && user.password == password
-  );
 
-  console.log(em);
-  console.log(pw);
-  console.log(users);
-  console.log(user);
-
-  if (user) {
-    console.log("Login successful!", user);
-    loginErrorMessage.textContent = "";
-    localStorage.setItem("current_user", em);
-    window.location.href = "../main_page/services.html";
-  } else {
-    loginErrorMessage.textContent = "Invalid email or password";
+  // Email validation
+  if (email.length === 0 || !/\S+@\S+\.\S+/.test(email)) {
+    loginErrorMessage.textContent = "Please enter a valid email address";
+    return;
   }
+
+  // Password validation
+  if (password.length < 8) {
+    loginErrorMessage.textContent =
+      "Password must be at least 8 characters long";
+    return;
+  }
+
+  if (password.includes(" ")) {
+    loginErrorMessage.textContent = "Password cannot contain spaces";
+    return;
+  }
+
+  if (password.length > 20) {
+    loginErrorMessage.textContent =
+      "Password cannot be more than 20 characters long";
+    return;
+  }
+
+  if (/[^a-zA-Z0-9!@#$%^&*]/.test(password)) {
+    loginErrorMessage.textContent = "Password contains invalid characters";
+    return;
+  }
+
+  let loginData = {
+    email: email,
+    password: password,
+  };
+
+  fetch("php/check_login.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(loginData),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      eval(data);
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      loginErrorMessage.textContent =
+        "An error occurred. Please try again later.";
+    });
 }
 
 const form_lg = document.querySelector(".form-lg");
@@ -188,7 +222,7 @@ function auth_info(a) {
   const decodedToken = jwt_decode(a.credential);
   console.log(decodedToken, "3");
   console.log(decodedToken.name, decodedToken.email, "4");
-  let defaultPass = "loginedWithGoogle";
+  let defaultPass = "Google@2024";
   logup(event, decodedToken.name, decodedToken.email, defaultPass, defaultPass);
   logout(decodedToken.email);
 }
@@ -199,6 +233,6 @@ function auth_info_lg(a) {
   const decodedToken = jwt_decode(a.credential);
   //console.log(decodedToken, "3");
   //console.log(decodedToken.name, decodedToken.email, "4");
-  login(event, decodedToken.email, "loginedWithGoogle");
+  login(event, decodedToken.email, "Google@2024");
   logout(decodedToken.email);
 }
